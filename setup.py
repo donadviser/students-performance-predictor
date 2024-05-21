@@ -13,8 +13,8 @@ def get_packages(file_path:str)-> List[str]:
     with open(file_path, 'r') as f:
         requirements = f.read().splitlines()
 
-        if requirements and requirements[-1] == HYPHEN_E_DOT.strip():
-            requirements.pop()
+        if requirements and HYPHEN_E_DOT.strip() in requirements:
+            requirements.remove(HYPHEN_E_DOT)
     return requirements
 
 
