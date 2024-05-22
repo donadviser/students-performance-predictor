@@ -1,29 +1,27 @@
-import logging
 import os
+import yaml
+import logging
+from pathlib import Path 
+from src.utils import get_config_data
 
-script_dir = os.path.dirname(os.path.abspath(__file__))
+config = get_config_data()
 
-LOG_DIR = os.path.join(script_dir, 'logs')
-os.makedirs(LOG_DIR, exist_ok=True) 
+logs_dir = config["logs"].get("log_dir", ".")
+default_file_name = "app.log"  # Define a default filename
+file_name = config["logs"].get("file_name", default_file_name)
+log_dir_path = Path(__file__).parent.parent / logs_dir
+log_file_path = Path(log_dir_path) / file_name
 
+log_level = config["logs"].get("log_level", logging.INFO)
 
-LOG_FILE = 'app.log'
-
-# Construct the full log file path
-LOG_FILE_PATH = os.path.join(LOG_DIR, LOG_FILE)
+# Ensure the logs directory exists
+log_dir_path.mkdir(parents=True, exist_ok=True)  # Create logs dir if needed
 
 # Create a basic FileHandler
-log_handler = logging.FileHandler(LOG_FILE_PATH)
+log_handler = logging.FileHandler(log_file_path)
 log_handler.setFormatter(logging.Formatter("[%(asctime)s] %(lineno)d %(name)s %(levelname)s %(message)s"))
 
 # Get the root logger
 logger = logging.getLogger('app_logger')
 logger.setLevel(logging.INFO) 
 logger.addHandler(log_handler)
-
-
-if __name__ == '__main__':
-    logger.info('This is an info message')
-    logger.warning('This is a warning message')
-    logger.error('This is an error message')
-    logger.critical('This is a critical message')

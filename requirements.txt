@@ -1,4 +1,10 @@
+wheel
+pyyaml
 pandas
 numpy
 matplotlib
+optuna
+xgboost
+#lightgbm==3.3.2
+scikit-learn
 -e .

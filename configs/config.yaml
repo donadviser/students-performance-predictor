@@ -1,0 +1,9 @@
+# project_folder/configs/config.yaml
+logs:
+  file_name: "app.log"
+  log_dir: "logs"
+  log_level: INFO
+raw_data:
+  file_name: "stud.csv"
+  data_dir: "data"
+  sub_data_dir: "raw"

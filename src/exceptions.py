@@ -1,7 +1,7 @@
 import sys
 from src.logger import logger
 
-def get_error_details(error: Exception, error_details:sys):
+def get_error_details1(error: Exception, error_details:sys):
     """
     Returns the error message and error details.
 
@@ -23,7 +23,7 @@ def get_error_details(error: Exception, error_details:sys):
         return f"Error: Unable to retrieve detailed error information: {str(error)}"
     
 
-class CustomException(Exception):
+class CustomException1(Exception):
     """
     Custom exception class.
 
@@ -40,7 +40,7 @@ class CustomException(Exception):
 
     def __init__(self, error_message: str, error_details:sys):
         super().__init__(error_message)
-        self.error_message = get_error_details(error_message, error_details=error_details)
+        self.error_message = get_error_details1(error_message, error_details=error_details)
         logger.info(self.error_message)
     
     def __str__(self):
@@ -48,7 +48,7 @@ class CustomException(Exception):
     
 
 
-def get_error_details2(error_details: Exception, error: str=None) -> str:
+def get_error_details(error_details: Exception, error: str=None) -> str:
     """
     Returns the error message and error details.
 
@@ -67,16 +67,16 @@ def get_error_details2(error_details: Exception, error: str=None) -> str:
         exc_info = error_details.__traceback__
         file_name = exc_info.tb_frame.f_code.co_filename
         line_number = exc_info.tb_lineno
-        if error == None:
+        if not error:
             error_message = str(error_details)
         else:
-            error_message = f"User Error Message: {str(error_details)} | USER INPUT: {str(error)}"
+            error_message = f"{str(error_details)} | USER INPUT: {str(error)}"
         return f"Error occured in Python Script: {file_name}, Line: {line_number}, Message: {error_message}"
     except (AttributeError, NameError):
         # Handle potential missing attributes
         return f"Error: Unable to retrieve detailed error information: {str(error)}"
 
-class CustomException2(Exception):
+class CustomException(Exception):
     """
     Custom exception class.
 
@@ -93,7 +93,8 @@ class CustomException2(Exception):
 
     def __init__(self, error_details: Exception, error_message: str=None):
         super().__init__(error_message)
-        self.error_message = get_error_details2(error_details, error_message)
+        self.error_message = get_error_details(error_details, error_message)
+        logger.info(self.error_message)
 
     def __str__(self):
         return self.error_message
