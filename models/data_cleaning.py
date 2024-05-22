@@ -15,7 +15,7 @@ class DataCleaning:
         
     """
 
-    def __init__(self, data: pd.DataFrame) -> None:
+    def __init__(self, ) -> None:
         self.df = data
 
     def preprocess_data(self) -> pd.DataFrame:

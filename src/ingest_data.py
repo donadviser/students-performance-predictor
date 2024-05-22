@@ -27,7 +27,7 @@ class DataIngestion:
         self.ingestion_config = DataIngestionConfig()
 
 
-    def initiate_data_ingestion(self) -> Tuple[str, str]:
+    def initiate_data_ingestion(self) -> Tuple[str, str, str]:
         """Returns the raw data"""
         logger.info("Get original raw data")    
 
@@ -47,14 +47,11 @@ class DataIngestion:
             logger.info("Initiate data split to train and test set")
             train_data_path = self.ingestion_config.train_data_path    
             test_data_path = self.ingestion_config.test_data_path           
-             
-            train_set, test_set = train_test_split(df, test_size=0.2, random_state=42)
-            train_set.to_csv(train_data_path, index=False, header=True)
-            test_set.to_csv(test_data_path, index=False, header=True)
-            logger.info(f"train and test data saved successfully to: {train_data_path} and {test_data_path}")
+            
             logger.info("Ingestion of data is completed successfully")           
 
             return(
+                raw_data_path,
                 train_data_path,
                 test_data_path               
             )

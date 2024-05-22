@@ -35,18 +35,20 @@ def student_performance_data_pipeline() -> Tuple[
         logger.info("Data pipeline for student performance started")
         # Step 1: Load data from the data source:  csv, api, cloud, etc...
         data_injection = ingest_data.DataIngestion()
-        train_data_path, test_data_path = data_injection.initiate_data_ingestion()
+        raw_data_path, train_data_path, test_data_path = data_injection.initiate_data_ingestion()
         print(f"train_data_path: {train_data_path}")
         print(f"test_data_path: {test_data_path}")
          
 
-        # Step 2: Clean data
-        #X_train, X_test, y_train, y_test = clean_data.clean_data(df)
+        # Step 2: Clean data        
+        data_cleaning = clean_data.DataCleaning(raw_data_path, train_data_path, test_data_path)
+        data_cleaning.clean_data()
 
         # Step 3: Transform data
-        #transform_data()
+        data_transformation = transform_data.DataTransformation()
+        train_array, test_array, preprocessor_obj_file_path = data_transformation.initiate_data_transformation(train_data_path, test_data_path)
 
-
+        print(train_array[:5])
         logger.info("Data pipeline for student performance completed successfully")
         #return X_train, X_test, y_train, y_test
     
