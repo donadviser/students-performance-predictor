@@ -2,6 +2,7 @@ import sys
 from typing import Annotated
 
 import pandas as pd
+import numpy as np
 from sklearn.base import RegressorMixin
 
 
@@ -11,10 +12,10 @@ from models.model_dev import ModelTrainer
 
 
 def train_model(
-        X_train: pd.DataFrame, 
-        y_train: pd.DataFrame, 
-        X_test: pd.DataFrame, 
-        y_test: pd.DataFrame,
+        X_train: np.ndarray, 
+        y_train: np.ndarray, 
+        X_test: np.ndarray, 
+        y_test: np.ndarray,
         model_type: str = 'randomforest', 
         do_fine_tuning: bool = True
         ) -> Annotated[RegressorMixin, "sklearn_regressor_model"]:
@@ -37,11 +38,25 @@ def train_model(
             logger.info("Training random forest model")
             sklearn_regressor_model = model_training.random_forest_trainer(fine_tuning=do_fine_tuning)
             return sklearn_regressor_model
+        
+        elif model_type == "lightgbm":
+            logger.info("Training lightgbm model")
+            sklearn_regressor_model = model_training.lightgbm_trainer(
+                fine_tuning=do_fine_tuning
+            )
+            return sklearn_regressor_model
+        
+        elif model_type == "xgboost":
+            logger.info("Training xgboost model")
+            sklearn_regressor_model = model_training.xgboost_trainer(
+                fine_tuning=do_fine_tuning
+            )
+            return sklearn_regressor_model
         else:
             raise ValueError('Model type not supported')
 
     except Exception as e:
-        CustomException(e, sys)
+        CustomException(e, "Error in train_model")
 
 
 if __name__ == '__main__':

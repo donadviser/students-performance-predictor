@@ -2,6 +2,7 @@ import sys
 import os
 import pandas as pd
 import numpy as np
+from typing import Tuple
 
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
@@ -55,7 +56,7 @@ class DataTransformation:
         except Exception as e:
             raise CustomException(e, "Error in transform_data while get_data_trasform_object")
         
-    def initiate_data_transformation(self, train_path, test_path):
+    def initiate_data_transformation(self, train_path, test_path) -> Tuple[np.ndarray, np.ndarray, str]:
         """Initiates data transformation"""
         try:
             logger.info("Initiating data transformation")

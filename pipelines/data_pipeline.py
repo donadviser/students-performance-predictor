@@ -4,15 +4,15 @@ import sys
 from typing import Annotated, Tuple
 
 import pandas as pd
+import numpy as np
 from src.exceptions import CustomException
 from src import ingest_data, clean_data, transform_data
 from src.logger import logger
 
 def student_performance_data_pipeline() -> Tuple[
-        Annotated[pd.DataFrame, "X_train"],
-        Annotated[pd.DataFrame, "X_test"],
-        Annotated[pd.DataFrame, "y_train"],
-        Annotated[pd.DataFrame, "y_test"],
+        Annotated[np.ndarray, "train_array"],
+        Annotated[np.ndarray, "test_array"],
+        Annotated[str, "preporssor object"],
     ]:
     """
     Pipeline for data wraggling, cleaning
@@ -48,9 +48,8 @@ def student_performance_data_pipeline() -> Tuple[
         data_transformation = transform_data.DataTransformation()
         train_array, test_array, preprocessor_obj_file_path = data_transformation.initiate_data_transformation(train_data_path, test_data_path)
 
-        print(train_array[:5])
         logger.info("Data pipeline for student performance completed successfully")
-        #return X_train, X_test, y_train, y_test
+        return (train_array, test_array, preprocessor_obj_file_path)
     
     except Exception as e:
         CustomException(e, "Error in data pipeline")

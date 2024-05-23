@@ -1,10 +1,12 @@
 wheel
+flask
+Flask-Cors
 pyyaml
 pandas
 numpy
 matplotlib
 optuna
 xgboost
-#lightgbm==3.3.2
+lightgbm
 scikit-learn
 -e .
