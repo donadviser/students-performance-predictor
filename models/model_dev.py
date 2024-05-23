@@ -135,7 +135,7 @@ class ModelTrainer:
                 n_estimators = trial.params["n_estimators"]
                 max_depth = trial.params["max_depth"]
                 min_samples_split = trial.params["min_samples_split"]
-                logger.info("Random Forest Best Parameters: {trial.params}")
+                logger.info(f"Random Forest Best Parameters: {trial.params}")
                 reg = RandomForestRegressor(
                     n_estimators=n_estimators,
                     max_depth=max_depth,
