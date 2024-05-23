@@ -40,17 +40,5 @@ def predict_datapoint():
         return render_template('home.html',results=results[0])
     
 
-<<<<<<< HEAD
 if __name__=="__main__":
     app.run(host="0.0.0.0")  
-=======
-        pred_df = data.prepare_data_for_inference()
-        predict_pipeline = PredictPipeline()
-        pred = predict_pipeline.predict(pred_df)
-
-        dct = {'price':round(pred[0],2)}
-        return jsonify(dct)
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0')
->>>>>>> 0083f98a5acd205ab328b1af7b57e2010ba8e368
