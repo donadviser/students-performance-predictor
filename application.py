@@ -4,14 +4,14 @@ from pipelines.inference_pipeline import CustomData, PredictPipeline
 
 application = Flask(__name__)
 
-app = application
+#app = application
 
-@app.route('/')
+@application.route('/')
 @cross_origin()
 def home_page():
     return render_template('index.html')
 
-@app.route('/predict',methods=['GET','POST'])
+@application.route('/predict',methods=['GET','POST'])
 @cross_origin()
 def predict_datapoint():
     if request.method == 'GET':
@@ -36,7 +36,7 @@ def predict_datapoint():
         results = round(pred[0],2)
         return render_template('index.html',results=results)
     
-@app.route('/predictAPI',methods=['POST'])
+@application.route('/predictAPI',methods=['POST'])
 @cross_origin()
 def predict_api():
     if request.method=='POST':
@@ -58,4 +58,4 @@ def predict_api():
         return jsonify(dct)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000)
+    application.run(host='0.0.0.0', port=8000)
