@@ -1,4 +1,14 @@
+wheel
 pandas
 numpy
+seaborn
+matplotlib
 scikit-learn
+catboost
+xgboost
+lightgbm
 Flask
+optuna
+pyyaml
+Flask-Cors
+#-e .
