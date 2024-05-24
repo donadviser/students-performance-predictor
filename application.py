@@ -1,44 +1,61 @@
-from flask import Flask,request,render_template
-import numpy as np
-import pandas as pd
+from flask import Flask, request, render_template,jsonify
+from flask_cors import CORS,cross_origin
+from pipelines.inference_pipeline import CustomData, PredictPipeline
 
-from pipelines.inference_pipeline import CustomData,PredictPipeline
+application = Flask(__name__)
 
-application=Flask(__name__)
-
-app=application
-
-## Route for a home page
+app = application
 
 @app.route('/')
-def index():
-    return render_template('index.html') 
+@cross_origin()
+def home_page():
+    return render_template('index.html')
 
-@app.route('/predictdata',methods=['GET','POST'])
+@app.route('/predict',methods=['GET','POST'])
+@cross_origin()
 def predict_datapoint():
-    if request.method=='GET':
-        return render_template('home.html')
+    if request.method == 'GET':
+        return render_template('index.html')
     else:
-        data=CustomData(
-            gender=request.form.get('gender'),
-            race_ethnicity=request.form.get('ethnicity'),
-            parental_level_of_education=request.form.get('parental_level_of_education'),
-            lunch=request.form.get('lunch'),
-            test_preparation_course=request.form.get('test_preparation_course'),
-            reading_score=float(request.form.get('writing_score')),
-            writing_score=float(request.form.get('reading_score'))
-
+        data = CustomData(
+            gender = request.form.get('gender'),
+            race_ethnicity = request.form.get('ethnicity'),
+            parental_level_of_education = request.form.get('parental_level_of_education'),
+            lunch = request.form.get('lunch'),
+            test_preparation_course = request.form.get('test_preparation_course'),
+            reading_score = float(request.form.get('reading_score')),
+            writing_score = float(request.form.get('writing_score'))
         )
-        pred_df=data.prepare_data_for_inference()
+
+        pred_df = data.prepare_data_for_inference()
+        
         print(pred_df)
-        print("Before Prediction")
 
-        predict_pipeline=PredictPipeline()
-        print("Mid Prediction")
-        results=predict_pipeline.predict(pred_df)
-        print("after Prediction")
-        return render_template('home.html',results=results[0])
+        predict_pipeline = PredictPipeline()
+        pred = predict_pipeline.predict(pred_df)
+        results = round(pred[0],2)
+        return render_template('index.html',results=results)
     
+@app.route('/predictAPI',methods=['POST'])
+@cross_origin()
+def predict_api():
+    if request.method=='POST':
+        data = CustomData(
+            gender = request.json['gender'],
+            race_ethnicity = request.json['ethnicity'],
+            parental_level_of_education = request.json['parental_level_of_education'],
+            lunch = request.json['lunch'],
+            test_preparation_course = request.json['test_preparation_course'],
+            reading_score = float(request.json['reading_score']),
+            writing_score = float(request.json['writing_score'])
+        )
 
-if __name__=="__main__":
-    app.run(host="0.0.0.0")  
+        pred_df = data.prepare_data_for_inference()
+        predict_pipeline = PredictPipeline()
+        pred = predict_pipeline.predict(pred_df)
+
+        dct = {'price':round(pred[0],2)}
+        return jsonify(dct)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8000)

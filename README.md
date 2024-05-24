@@ -26,7 +26,7 @@ This project understands how the student's performance (Math scores) is affected
 * Dataset Source - https://www.kaggle.com/datasets/spscientist/students-performance-in-exams?datasetId=74977
 * The data consists of 8 columns and 1000 rows.
 
-## Deployment (AWS Elastic Beanstalk and AWS CodePipeline)
+## 2. Deployment (AWS Elastic Beanstalk and AWS CodePipeline)
 
 In theory, it is possible to deploy the project using AWS Elastic Beanstalk with a Continuous Delivery pipeline (AWS CodePipeline). Below is a brief tutorial on how to deploy the Flask web app:
 
@@ -51,7 +51,7 @@ Deploying the Flask web app using AWS Elastic Beanstalk with a Continuous Delive
 
 This setup streamlines the deployment process and ensures that changes to your code are automatically deployed to the Elastic Beanstalk instance.
 
-## Project Structure
+## 3. Project Structure
 
 The repository is organized into the following main components:
 
@@ -91,7 +91,7 @@ Build a Flask web application that facilitates making predictions with the train
 4. **Prediction:** Use the preprocessor to transform the data and make predictions.
 5. **Display Results:** Display the predictions on the HTML site.
 
-## Getting Started
+## 4. Getting Started
 
 1. Clone the repository: `https://github.com/donadviser/students-performance-predictor`
 2. Navigate to the project directory: `students-performance-predictor`
