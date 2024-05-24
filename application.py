@@ -4,8 +4,6 @@ from pipelines.inference_pipeline import CustomData, PredictPipeline
 
 application = Flask(__name__)
 
-#app = application
-
 @application.route('/')
 @cross_origin()
 def home_page():
@@ -36,26 +34,5 @@ def predict_datapoint():
         results = round(pred[0],2)
         return render_template('index.html',results=results)
     
-@application.route('/predictAPI',methods=['POST'])
-@cross_origin()
-def predict_api():
-    if request.method=='POST':
-        data = CustomData(
-            gender = request.json['gender'],
-            race_ethnicity = request.json['ethnicity'],
-            parental_level_of_education = request.json['parental_level_of_education'],
-            lunch = request.json['lunch'],
-            test_preparation_course = request.json['test_preparation_course'],
-            reading_score = float(request.json['reading_score']),
-            writing_score = float(request.json['writing_score'])
-        )
-
-        pred_df = data.prepare_data_for_inference()
-        predict_pipeline = PredictPipeline()
-        pred = predict_pipeline.predict(pred_df)
-
-        dct = {'price':round(pred[0],2)}
-        return jsonify(dct)
-
 if __name__ == '__main__':
-    application.run(host='0.0.0.0', port=8000)
+    application.run(host='0.0.0.0')
